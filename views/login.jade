@@ -1,0 +1,33 @@
+extends index
+
+block titleContent
+        title PostuhPoll - Login now
+        link(href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel='stylesheet')
+        link(href="/public/css/loginCSS.css" rel='stylesheet')
+block bodyContent
+        div.container#loginForm
+            h3#loginNowText Login now to start posting your own polls!
+            form.form-horizontal(action='/login' method='post')
+                div.row
+                    div.col-md-4
+                    div.form-group.col-md-4
+                        label.control-label Username
+                        input.form-control(type='text' name='username')
+                    div.col-md-4
+                div.row 
+                    div.col-md-4
+                    div.form-group.col-md-4
+                        label.control-label Password
+                        input.form-control(type='password' name='password')
+                    div.col-md-4
+                input.btn.btn-primary#loginButton(type='submit' value='Login') 
+            div#endText
+                span or click 
+                a(href='/register') here
+                span  to register.
+            -if (failed) {
+            div#failMessage
+                p Login has failed. Please ensure the username/password combination you've entered is valid.
+            - } 
+            
+        
