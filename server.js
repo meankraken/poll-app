@@ -10,7 +10,6 @@ var bodyParser = require('body-parser');
 var flash = require('connect-flash');
 
 var app = express();
-var Poll = require('./models/polls');
 
 var port = process.env.PORT || 8080;
 
@@ -39,13 +38,34 @@ passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
 
 
+var Poll = require('./models/poll');
+
 app.get('/', function(req,res) {
     res.render('index');
 });
 
 app.post('/', function(req,res) {
    if (req.user) {
-       res.end(req.user.username);
+       var optionsArr = [];
+       var arr = req.body.options.split(/[\n\r ]+/g);
+       for (var i=arr.length-1; i>=0; i--) {
+           if (arr[i].length==0) {
+               arr.pop();
+           }
+       }
+       arr.map(function(item) {
+           optionsArr.push({ title: item, votes: 0 });
+       });
+
+       var newPoll = new Poll({ question: req.body.question, options: optionsArr, usersVoted: [], ipsVoted: []});
+       newPoll.save(function(err,poll) {
+          if (err) {
+              console.log(err);
+          } 
+          else {
+              res.end("Saved!");
+          }
+       });
    } 
    else {
        res.redirect('/login');

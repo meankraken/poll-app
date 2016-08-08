@@ -1,7 +1,7 @@
 {
-  "name": "clementinejs",
-  "version": "1.0.2",
-  "description": "A light-weight MEAN stack boilerplate.",
+  "name": "PostuhPoll",
+  "version": "1.0.0",
+  "description": "Voting application",
   "main": "server.js",
   "scripts": {
     "start": "gulp"
@@ -11,7 +11,6 @@
     "url": "git+https://github.com/johnstonbl01/clementinejs"
   },
   "homepage": "http://johnstonbl01.github.io/clementinejs/",
-  "bugs": "https://github.com/johnstonbl01/clementinejs/issues",
   "keywords": [
     "MEAN",
     "MongoDB",
@@ -21,8 +20,7 @@
     "javascript",
     "boilerplate"
   ],
-  "author": "Blake Johnston",
-  "license": "MIT",
+  "author": "Jeffrey Feng",
   "dependencies": {
     "body-parser": "^1.15.2",
     "connect-flash": "^0.1.1",
