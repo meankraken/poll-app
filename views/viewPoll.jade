@@ -1,0 +1,22 @@
+extends index
+
+block titleContent
+    title=poll.question
+    link(href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css', rel='stylesheet', media='screen')
+    link(rel='stylesheet', href='/public/css/poll.css')
+    link(rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Marck+Script")
+    script(src="https://d3js.org/d3.v4.min.js")
+    script(type='text/babel' src='/public/pollView.js')
+    script.
+        var poll =  !{JSON.stringify(poll).replace(/<\//g, '<\\/')};
+        
+    
+
+block bodyContent
+    div.container
+        h3 CAST YOUR VOTE
+        div#pollContainer
+    - if (alreadyVoted) {
+    p You've already voted!  
+        
+    - }

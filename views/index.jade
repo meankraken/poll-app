@@ -1,17 +1,19 @@
 doctype html
 html
   head
-    block titleContent
-      title Welcome to PostuhPoll
-      meta(name='viewport', content='width=device-width, initial-scale=1.0')
-      link(href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css', rel='stylesheet', media='screen')
-      link(rel='stylesheet', href='/public/css/main.css')
       script(src='//code.jquery.com/jquery.js')
       script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js')
       script(src='https://cdnjs.cloudflare.com/ajax/libs/react/15.2.1/react.min.js')
       script(src='https://cdnjs.cloudflare.com/ajax/libs/react/15.2.1/react-dom.js')
       script(src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js")
+      link(href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css', rel='stylesheet', media='screen')
+    block titleContent
+      title Welcome to PostuhPoll
+      meta(name='viewport', content='width=device-width, initial-scale=1.0')
+      link(rel='stylesheet', href='/public/css/main.css')
+      link(rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Marvel")
       script(type='text/babel' src='/public/main.js')
+      script(src='/public/main2.js')
   
     
   body
@@ -19,6 +21,7 @@ html
       a(href='/') Home
       a(href='/register') Register
       a(href='/login') Login
+      a#profileLink(href='/profile')= user
     block bodyContent
       div.container 
         div#top-banner 
@@ -35,6 +38,10 @@ html
             br
             button.btn.btn-primary(type='submit') Submit
             button.btn.btn-default#cancelButton Cancel
+        hr#line
+        div.col-md-3
+        div.pollList.col-md-6
+        div.col-md-3
         
     
         

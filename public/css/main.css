@@ -27,6 +27,11 @@ body {
     margin-right:50px;
 }
 
+#profileLink {
+    float:right;
+    margin-right:10px !important;
+}
+
 #top-banner {
     height:70px;
     width:500px;
@@ -64,6 +69,13 @@ body {
     border:1px ridge white;
 }
 
+#line {
+    width:60%;
+    margin-top:25px;
+    margin-bottom:-25px;
+    opacity:.5;
+}
+
 #createForm {
     display:none;
     height:0px;
@@ -98,6 +110,43 @@ body {
 .btn-default {
     margin-left:5px;
 }
+
+.pollList {
+    margin:auto;
+    margin-top:50px;
+}
+
+.poll {
+    height:35px;
+    width:95%;
+    border:3px solid white;
+    border-radius:15px;
+    background-color:#43D6E0;
+    margin:auto;
+    margin-top:5px;
+    transition: width .5s, height .5s;
+    overflow:hidden;
+    cursor:pointer;
+}
+
+.pollQuestion {
+    margin-left:30px;
+    font-family:marvel;
+    line-height:30px;
+}
+
+.pollCreator {
+    float:right;
+    margin-right:30px;
+    font-family: arial;
+    font-size:.8em;
+    line-height:30px;
+}
+
+
+
+
+
 
 
 
