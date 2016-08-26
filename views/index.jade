@@ -12,8 +12,9 @@ html
       meta(name='viewport', content='width=device-width, initial-scale=1.0')
       link(rel='stylesheet', href='/public/css/main.css')
       link(rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Marvel")
-      script(type='text/babel' src='/public/main.js')
       script(src='/public/main2.js')
+      script(type='text/babel' src='/public/main.js')
+      
   
     
   body
@@ -21,13 +22,18 @@ html
       a(href='/') Home
       a(href='/register') Register
       a(href='/login') Login
-      a#profileLink(href='/profile')= user
+      span#upperText Logged in as: &nbsp;     
+        a#profileLink(href='/profile')= user
     block bodyContent
       div.container 
         div#top-banner 
           h1 Welcome to 
           h1(style="font-family:impact; color:#4E8191") PostuhPoll
         div#addPoll POST A POLL
+        - if (limitReached) {
+        p#limitReached You already have 10 active polls. Please remove your old polls before creating additional polls.
+          
+        - }
         div#createForm 
           form#pollForm(action='/' method='post')
             h3 Enter your question:

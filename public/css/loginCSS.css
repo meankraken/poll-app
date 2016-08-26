@@ -23,6 +23,17 @@
 
 }
 
+#upperText {
+    float:right;
+    line-height:25px;
+    color:white;
+}
+
+#profileLink {
+    float:right;
+    margin-right:10px !important;
+}
+
 
 #loginNowText {
 	text-align:center;

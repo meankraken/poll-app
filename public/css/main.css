@@ -27,6 +27,12 @@ body {
     margin-right:50px;
 }
 
+#upperText {
+    float:right;
+    line-height:25px;
+    color:white;
+}
+
 #profileLink {
     float:right;
     margin-right:10px !important;
@@ -49,6 +55,13 @@ body {
     font-family:arial;
     display:inline;
     color:#ADADAD;
+}
+
+#limitReached {
+    text-align:center;
+    color:red;
+    font-size:1.3em;
+    margin-top:10px;
 }
 
 #addPoll {

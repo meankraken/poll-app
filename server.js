@@ -51,26 +51,35 @@ app.get('/', function(req,res) {
 
 app.post('/', function(req,res) {
    if (req.user) {
-       var optionsArr = [];
-       var arr = req.body.options.split(/[\n\r ]+/g);
-       for (var i=arr.length-1; i>=0; i--) {
-           if (arr[i].length==0) {
-               arr.pop();
-           }
+       var count = Poll.count({ creator: req.user.username }, function(count) {
+           return count;
+       }) ;
+       if (count>=10) {
+            res.render('index', { user: req.user.username, limitReached: true });    
+       
        }
-       arr.map(function(item) {
-           optionsArr.push({ title: item, votes: 0 });
-       });
-
-       var newPoll = new Poll({ question: req.body.question, options: optionsArr, usersVoted: [], ipsVoted: [], creator: req.user.username });
-       newPoll.save(function(err,poll) {
-          if (err) {
-              console.log(err);
-          } 
-          else {
-              res.redirect('/');
-          }
-       });
+       else {
+           var optionsArr = [];
+           var arr = req.body.options.split(/[\n\r]+/g);
+           for (var i=arr.length-1; i>=0; i--) {
+               if (arr[i].length==0) {
+                   arr.pop();
+               }
+           }
+           arr.map(function(item) {
+               optionsArr.push({ title: item, votes: 0 });
+           });
+    
+           var newPoll = new Poll({ question: req.body.question, options: optionsArr, usersVoted: [], ipsVoted: [], creator: req.user.username });
+           newPoll.save(function(err,poll) {
+              if (err) {
+                  console.log(err);
+              } 
+              else {
+                  res.redirect('/');
+              }
+           });
+       }
    } 
    else {
        res.render('login', { user: "" });
@@ -78,7 +87,12 @@ app.post('/', function(req,res) {
 });
 
 app.get('/register', function(req,res) {
-   res.render('register', { user: "" }); 
+    if (req.user) {
+        res.render('register', { user: req.user.username });
+    }
+    else {
+        res.render('register', { user: "" }); 
+    }
 });
 
 app.post('/register', function(req,res) {
@@ -117,8 +131,11 @@ app.get('/login', function(req,res) {
     if (req.query.failed) {
         res.render('login', { user: "", failed: true });
     }
+    else if (req.user) {
+        res.render('login', {user: req.user.username});
+    }
     else {
-   res.render('login', { user: "" });
+        res.render('login', { user: "" });
     }
 });
 
@@ -127,6 +144,28 @@ app.post('/login', passport.authenticate('local', {
     successRedirect: '/', 
     failureRedirect: '/login?failed=true'
 })); 
+
+app.get('/logout', function(req,res) {
+   req.logout(); 
+   res.redirect('/');
+});
+
+app.get('/profile', function(req,res) { //user profile
+   if (req.user) {
+        Poll.find({ creator: req.user.username }).sort({ _id: -1 }).exec(function(err, polls) {
+           if (err) {
+               console.log(err);
+           } 
+           else {
+               res.render("profile", {user: req.user.username, polls: polls });
+           }
+           
+        });
+   } 
+   else {
+       res.render("login");
+   }
+});
 
 
 app.get('/getPolls', function(req,res) { //set up API to grab polls
@@ -142,7 +181,7 @@ app.get('/getPolls', function(req,res) { //set up API to grab polls
     
 });
 
-app.get('/poll/:id', function(req,res) {
+app.get('/poll/:id', function(req,res) { //show poll chart
     Poll.findOne({ _id: req.params.id }, function(err, poll) {
         if (req.user) {
             res.render('viewPoll', { user: req.user.username, poll: poll });
@@ -153,11 +192,12 @@ app.get('/poll/:id', function(req,res) {
     }) ;
 });
 
-app.post('/poll/:id', function(req,res) {
+app.post('/poll/:id', function(req,res) { //handle votes on poll with id
     var ip = req.headers['x-forwarded-for'] || 
      req.connection.remoteAddress || 
      req.socket.remoteAddress ||
      req.connection.socket.remoteAddress;
+     
     var voted = false;
     
     Poll.findOne({_id: req.params.id }, function(err,poll) {
@@ -168,17 +208,18 @@ app.post('/poll/:id', function(req,res) {
             poll.usersVoted.forEach(function(item) {
                if (item==req.user.username) {
                    voted = true;
-                   
+                   console.log("User already voted");
                } 
             });
         }
-        
+        if (!req.user) {
             poll.ipsVoted.forEach(function(item) {
                if (item==ip) {
                    voted = true;
-                   
+                   console.log("IP already voted");
                }
             });
+        }
         
             if (!voted) {
                 poll.ipsVoted.push(ip);
@@ -195,6 +236,7 @@ app.post('/poll/:id', function(req,res) {
                 });
                 poll.save();
                 
+                
                 res.render('viewPoll', {user:"", poll: poll, alreadyVoted: false});
         
             }
@@ -206,6 +248,21 @@ app.post('/poll/:id', function(req,res) {
     
     
     
+});
+
+app.post('/deletePoll/:id', function(req,res) { //delete poll from db
+    var id = req.params.id;
+    if (req.user) {
+        Poll.findOne({ _id: id }, function(err,poll) {
+           if (poll.creator == req.user.username) {
+               poll.remove();
+           }
+           
+        });
+    }
+    else {
+        res.redirect('/');
+    }
 });
 
 

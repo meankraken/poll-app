@@ -1,0 +1,24 @@
+extends index
+
+block titleContent
+    title PostuhPoll - Your Profile
+    link(rel='stylesheet' href='/public/css/profile.css')
+    link(rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Actor")
+    script.
+        var polls = !{JSON.stringify(polls).replace(/<\//g, '<\\/')}
+    script(type="text/babel" src="/public/profileView.js")
+        
+
+block bodyContent
+    div.container 
+        div#welcomeBox
+            p#line1 Welcome to your 
+            p#line2 Profile
+            p#line3=user
+        div#bodyBox
+            button#logoutBtn Click here to logout
+            hr
+            p View your polls below: 
+            hr
+            div.container-fluid#polls
+            

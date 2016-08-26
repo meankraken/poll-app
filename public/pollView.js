@@ -117,7 +117,7 @@ class Chart extends React.Component {
                 d3.select(this).append('g').attr("transform","translate(" + (wide/2) + "," + high + ")").append('text').text(data.votes).attr("fill","#F24141").attr('text-anchor','middle').attr('font-size','2em').attr("font-family","impact");
                 $(this).attr("fill","#79D0F2");
             }, function() {
-                $(this).attr("fill","steelBlue")
+                $(this).attr("fill","steelBlue");
                 $(this).find('text').remove();
             });
         

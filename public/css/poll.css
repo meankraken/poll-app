@@ -26,6 +26,12 @@ body {
     margin-right:10px !important;
 }
 
+#upperText {
+    float:right;
+    line-height:25px;
+    color:white;
+}
+
 #pollContainer {
     position:absolute;
     height:500px;
@@ -71,6 +77,7 @@ h5 {
 
 .question {
     text-align:center;   
+    font-family:Lemon;
 }
 
 select {
