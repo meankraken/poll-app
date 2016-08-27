@@ -53,22 +53,22 @@ body {
 #line1 {
     font-size:2.5em;
     color:white;    
-    font-family:Arial;
+    font-family:Marvel;
 }
 
 #line2 {
     font-size:2em;
     color:white;
-    font-family:Arial;
+    font-family:Marvel;
     
 }
 
 #line3 {
     font-size:4em;    
-    color:#6CF0DE;
+    color:#72E5ED;
     text-shadow:2px 2px grey;
     line-height:50px;
-    font-family:impact;
+    font-family:Ultra;
 }
 
 #bodyBox {
@@ -118,10 +118,12 @@ hr {
     border:1px solid white;
     border-radius:10px;
     background-color:#2FA19F;
-    height:150px;
+    height:175px;
     width:250px;
     cursor:pointer;
     overflow:auto;
+    font-size:.8em;
+    padding:12px;
 }
 
 .poll {
@@ -131,29 +133,35 @@ hr {
 }
 
 .delete {
-    height:25px;
-    width:25px;
-    background-color:#E34950;
+    height:20px;
+    width:20px;
+    background-color:#79D2ED;
     color:white;
     border-radius:50%;
     border:0;
     position:absolute;
     left:2px;
     top:2px;    
-    font-weight:700;
     z-index:80;
+    text-align:center;
+    font-weight:700;
 }
 
 .add {
-    position:relative;
+    position:absolute;
     z-index:99;
-    border-radius:10px;
-    background-color:white;
     border:0;
-    font-size:.8em;
+    background-color:#41BFBD;
+    border:1px solid white;
+    color:white;
+    bottom:5px;
+    left:50%;
+    transform:translate(-50%,0);
 }
 
-
+.text1 {
+    color:black !important;
+}
 
 
 

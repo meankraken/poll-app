@@ -40,7 +40,7 @@ passport.deserializeUser(Account.deserializeUser());
 
 var Poll = require('./models/poll');
 
-app.get('/', function(req,res) {
+app.get('/', function(req,res) { //home page, poll list view
     if (req.user) {
         res.render('index', { user: req.user.username });
     }
@@ -49,44 +49,45 @@ app.get('/', function(req,res) {
     }
 });
 
-app.post('/', function(req,res) {
+app.post('/', function(req,res) { //create poll
    if (req.user) {
-       var count = Poll.count({ creator: req.user.username }, function(count) {
-           return count;
-       }) ;
-       if (count>=10) {
-            res.render('index', { user: req.user.username, limitReached: true });    
-       
-       }
-       else {
-           var optionsArr = [];
-           var arr = req.body.options.split(/[\n\r]+/g);
-           for (var i=arr.length-1; i>=0; i--) {
-               if (arr[i].length==0) {
-                   arr.pop();
-               }
+       Poll.count({ creator: req.user.username }, function(err, count) {
+           console.log(count);
+           if (count>=10) {
+                res.render('index', { user: req.user.username, limitReached: true });    
+           
            }
-           arr.map(function(item) {
-               optionsArr.push({ title: item, votes: 0 });
-           });
-    
-           var newPoll = new Poll({ question: req.body.question, options: optionsArr, usersVoted: [], ipsVoted: [], creator: req.user.username });
-           newPoll.save(function(err,poll) {
-              if (err) {
-                  console.log(err);
-              } 
-              else {
-                  res.redirect('/');
-              }
-           });
-       }
+           else {
+               var optionsArr = [];
+               var arr = req.body.options.split(/[\n\r]+/g);
+               for (var i=arr.length-1; i>=0; i--) {
+                   if (arr[i].length==0) {
+                       arr.pop();
+                   }
+               }
+               arr.map(function(item) {
+                   optionsArr.push({ title: item, votes: 0 });
+               });
+        
+               var newPoll = new Poll({ question: req.body.question, options: optionsArr, usersVoted: [], ipsVoted: [], creator: req.user.username });
+               newPoll.save(function(err,poll) {
+                  if (err) {
+                      console.log(err);
+                  } 
+                  else {
+                      res.redirect('/');
+                  }
+               });
+           }
+        }) ;
+       
    } 
    else {
        res.render('login', { user: "" });
    }
 });
 
-app.get('/register', function(req,res) {
+app.get('/register', function(req,res) { //regristration page
     if (req.user) {
         res.render('register', { user: req.user.username });
     }
@@ -95,7 +96,7 @@ app.get('/register', function(req,res) {
     }
 });
 
-app.post('/register', function(req,res) {
+app.post('/register', function(req,res) { //register account 
     var name;
     Account.findOne({ 'username' : req.body.username }, 'username', function(err, account) {
         if (err) {
@@ -228,6 +229,7 @@ app.post('/poll/:id', function(req,res) { //handle votes on poll with id
                 }
                 poll.options = poll.options.map(function(item) {
                    if (item.title==req.body.options) {
+                       console.log("Incremented votes");
                        return { title: item.title, votes: item.votes+1 };
                    } 
                    else {
@@ -259,6 +261,24 @@ app.post('/deletePoll/:id', function(req,res) { //delete poll from db
            }
            
         });
+    }
+    else {
+        res.redirect('/');
+    }
+});
+
+app.post('/addOption/:id/:option', function(req,res) { //add option to poll with id
+    var id = req.params.id;
+    if (req.user) {
+        Poll.findOne({_id: id}, function(err,poll) {
+           if (poll.creator == req.user.username) {
+               console.log("adding option");
+               var newOption = req.params.option;
+               poll.options.push({ title: newOption, votes: 0 });
+               poll.save();
+           } 
+        });
+        res.redirect('/poll/' + id);
     }
     else {
         res.redirect('/');

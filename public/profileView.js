@@ -4,7 +4,7 @@ $(document).ready(function() {
    }) ;
    
    $(document).on('mouseenter', '.pollBox', function() {
-      $(this).css("background-color","#5DD9D9"); 
+      $(this).css("background-color","#198C7D"); 
    });
    $(document).on('mouseleave', '.pollBox', function() {
       $(this).css("background-color",""); 
@@ -16,6 +16,14 @@ $(document).ready(function() {
    $(document).on('mouseleave','.delete', function() {
        $(this).css("color",""); 
    });
+   
+   $(document).on('mouseenter','.add', function() {
+       $(this).css("background-color", "#198C7D");
+   });
+   $(document).on('mouseleave','.add', function() {
+       $(this).css("background-color", "");
+   });
+   
 });
 
 class App extends React.Component {
@@ -39,14 +47,15 @@ class App extends React.Component {
                     pollArr.push(this.state.polls[i]);
                 }
             }
+            $.ajax({
+               url: "/deletePoll/" + thePoll._id,
+               method: "POST",
+               dataType: 'text',
+               data: { data: thePoll._id }
+            });
+            this.setState({ polls: pollArr });
         }
-        $.ajax({
-           url: "/deletePoll/" + thePoll._id,
-           method: "POST",
-           dataType: 'text',
-           data: { data: thePoll._id }
-        });
-        this.setState({ polls: pollArr });
+        
         
         event.stopPropagation();
         
@@ -113,6 +122,23 @@ class Poll extends React.Component {
         window.location = "/poll/" + this.props.poll._id;
     }
     
+    addOption(event) {
+        var id = this.props.poll._id;
+        var newOption = prompt("Enter a new option: ");
+        if (newOption!=null) {
+            $.ajax({
+               url: "/addOption/" + this.props.poll._id + "/" + newOption,
+               method:'POST'
+                
+            }).then(function() {
+                window.location = "/poll/" + id;
+            });
+            
+        }
+        event.stopPropagation();
+        
+    }
+    
     render() {
         var topVotes = 0;
         var topAnswer = "No votes cast yet."
@@ -127,10 +153,10 @@ class Poll extends React.Component {
         
         return (
             <div className="poll" onClick={ this.redirect.bind(this) } >
-                <p>Q: {this.props.poll.question}</p>
-                <p>Most voted answer: {topAnswer}</p>
+                <p><span style={{color:"#72D8F7"}}>Q: </span> {this.props.poll.question}</p>
+                <p><span style={{color:"#72D8F7"}}>Most voted answer: </span> {topAnswer}</p>
                 <button className="delete" onClick={(event) => this.props.deletePrompt(thePoll,event)}>X</button>
-                <button className="add">Add Option</button>
+                <button className="add" onClick={this.addOption.bind(this)}>Add Option</button>
             </div>    
             );
     }

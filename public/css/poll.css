@@ -87,6 +87,7 @@ select {
     margin:auto;
     border:none;
     top:50px;
+    font-family:impact;
     
 }
 
@@ -100,9 +101,20 @@ form {
     margin:auto;
     top:15%;
     width:150px;
-    font-family:arial;
-    letter-spacing:3px;
+    font-family:times;
+    letter-spacing:2px;
     font-weight:700;
+}
+
+.tweetBtn {
+    position:relative;
+    display:block;
+    margin:auto;
+    top:18%;
+    width:150px;
+    font-style:italic;
+    font-family:impact;
+    color:#2A9DFA;
 }
 
 #chartContainer {

@@ -9,6 +9,10 @@ $(document).ready(function() {
        
    });
    
+   $(document).on("click", ".tweetBtn", function() {
+      window.location = "https://twitter.com/intent/tweet?url=" + window.location;
+   });
+   
     
 });
 
@@ -56,6 +60,7 @@ class SideBar extends React.Component {
                         </select>
                         <button type="submit" className="btn btn-primary submitBtn">Submit Vote</button>
                         
+                        <button type="button" className="btn btn-secondary tweetBtn">Share on Twitter</button>
                     </form>
                     
                 </div>
