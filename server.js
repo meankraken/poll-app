@@ -239,12 +239,21 @@ app.post('/poll/:id', function(req,res) { //handle votes on poll with id
                 });
                 poll.save();
                 
-                
-                res.render('viewPoll', {user:"", poll: poll, alreadyVoted: false});
+                if (req.user) {
+					res.render('viewPoll', {user:req.user.username, poll: poll, alreadyVoted: false});
+				}
+				else {
+					res.render('viewPoll', {user:"", poll: poll, alreadyVoted: false});
+				}
         
             }
             else {
-                res.render('viewPoll', { user:"", poll: poll, alreadyVoted: true });
+				if (req.user) {
+					res.render('viewPoll', { user:req.user.username, poll: poll, alreadyVoted: true });
+				}
+				else {
+					res.render('viewPoll', { user:"", poll: poll, alreadyVoted: true });
+				}
             }
     });
     
