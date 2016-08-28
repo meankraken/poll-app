@@ -8,9 +8,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/johnstonbl01/clementinejs"
+    "url": "git+https://github.com/meankraken/poll-app"
   },
-  "homepage": "http://johnstonbl01.github.io/clementinejs/",
   "keywords": [
     "MEAN",
     "MongoDB",
