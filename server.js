@@ -12,9 +12,10 @@ var flash = require('connect-flash');
 var app = express();
 
 var port = process.env.PORT || 8080;
+var url = process.env.MONGOLAB_URI || 'mongodb://localhost/MyDataBase';
 
-//mongoose.connect('mongodb://localhost/MyDataBase'); //use this to start locally
-mongoose.connect(process.env.MONGOLAB_URI); //for deployment to Heroku
+mongoose.connect(url);
+
 
 //set the view engine
 app.set('views', process.cwd() + '/views');
