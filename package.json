@@ -10,6 +10,9 @@
     "type": "git",
     "url": "git+https://github.com/meankraken/poll-app"
   },
+  "engines": {
+    "node": "4.4.7"
+  },
   "keywords": [
     "MEAN",
     "MongoDB",
