@@ -13,7 +13,8 @@ var app = express();
 
 var port = process.env.PORT || 8080;
 
-mongoose.connect('mongodb://localhost/MyDataBase');
+//mongoose.connect('mongodb://localhost/MyDataBase');
+mongoose.connect(process.env.MONGOLAB_URI);
 
 //set the view engine
 app.set('views', process.cwd() + '/views');
