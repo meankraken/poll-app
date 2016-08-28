@@ -13,8 +13,8 @@ var app = express();
 
 var port = process.env.PORT || 8080;
 
-//mongoose.connect('mongodb://localhost/MyDataBase');
-mongoose.connect(process.env.MONGOLAB_URI);
+//mongoose.connect('mongodb://localhost/MyDataBase'); //use this to start locally
+mongoose.connect(process.env.MONGOLAB_URI); //for deployment to Heroku
 
 //set the view engine
 app.set('views', process.cwd() + '/views');
